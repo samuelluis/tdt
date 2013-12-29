@@ -1,0 +1,18 @@
+TODOs
+
+- Menu (carros / personas) √
+- Estructura de json para el conteo de personas X
+- Integrar json conteo de personas con matcheo con imagenes DB X
+- Grafica basica conteo de personas √
+- Cargar imagenes para realizar comparaciones √
+- Crear tabla para simular matcheo de reconocimiento de personas  X
+- Grafica avanzada para mostrar conteo de personas, click encima para mostrar rostro de personas si matchea (Cantidad / Tiempo) X
+- Grafica avanzada para mostrar conteo de carros (Cantidad / Tiempo) √
+- Grafica avanzada para mostrar conteo de personas (realtime) X
+- Grafica avanzada para mostrar conteo de carros (realtime) √
+- Sistema para guardar 'archives' (mes, dias, años)
+	- Guardar base de datos y dependiendo del query que se haga hacer el ajax call para recibir el adecuado para el tiempo que se selecciono
+- Streaming video en el conteo de carros
+
+- Realtime del counting car, estoy chequeando el server cada cierto tiempo para ver detalles de un nuevo json si esta disponible o de un metodo que devuelva un json. Actualizar metodo o archivo json cada cierto intervalo de tiempo para mantener una continua comunicacion con el cliente y simular un real-time update. 
+- Cuando se de play al video llamar un metodo via Ajax que haga inicio de la app del counting car. Preferiblemente buscar una implementacion en vivo, tipo live streaming.

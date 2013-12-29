@@ -1,0 +1,46 @@
+{
+	"registration_tags": [ 
+		{ 
+			"ID" : 1 ,
+			"matricula": "40F0 - 22",
+			"date": "27/12/2013", 
+			"hour" : "16:05", 
+			"img_url" : "/static/ocr_images/r_tag_1.jpg"  
+		},
+		{ 
+			"ID" : 2 ,
+			"matricula": "CR 4595",
+			"date": "27/12/2013", 
+			"hour" : "16:08", 
+			"img_url" : "/static/ocr_images/r_tag_2.jpg"  
+		},
+		{ 
+			"ID" : 3 ,
+			"matricula": "002AGN",
+			"date": "27/12/2013", 
+			"hour" : "16:10", 
+			"img_url" : "/static/ocr_images/r_tag_3.jpg"  
+		},
+		{ 
+			"ID" : 4 ,
+			"matricula": "814 BRU",
+			"date": "27/12/2013", 
+			"hour" : "16:30", 
+			"img_url" : "/static/ocr_images/r_tag_4.jpg"  
+		} ,
+		{ 
+			"ID" : 5 ,
+			"matricula": "213 SAM",
+			"date": "27/12/2013", 
+			"hour" : "16:30", 
+			"img_url" : "/static/ocr_images/r_tag_5.jpg"  
+		} ,
+		{ 
+			"ID" : 6 ,
+			"matricula": "FUN MGB",
+			"date": "27/12/2013", 
+			"hour" : "16:51", 
+			"img_url" : "/static/ocr_images/r_tag_6.jpg"  
+		} 
+	] 
+}

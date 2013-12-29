@@ -1,0 +1,10 @@
+{% if lastest_camera_list %}
+    <ul>
+    {% for cameras in lastest_camera_list %}
+    <li> {{cameras.camera_id }} </li>
+    <li>{{ cameras.camera_status }}</li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p>No cars are available.</p>
+    {% endif %}

@@ -1,0 +1,33 @@
+OCR
+
+***This program loads an image, recognize characters in it and return***
+***text.						             ***
+
+
+****Instructions****
+
+---Needed libraries---
+
+Opencv - 2.3
+Numpy
+Tesseract-ocr
+pygtk
+
+---In case you dont have them---
+
+#Opencv : on terminal "sudo apt-get install python-opencv"
+#Numpy  : on terminal "sudo apt-get install python-numpy"
+#Tessereact-ocr : https://code.google.com/p/python-tesseract/wiki/HowToCompilePythonTesseract
+
+---Usage---
+
+1-From terminal run  " python ocrGui.py "
+2-Load picture by pressing big button (Located on the left)
+3-Browse the picture on images/tested 
+3-Press "Get text" button.
+4-The result should be visible on the text box on the gui(rigth top side)
+
+
+
+Note: "Tested images are located on images/tested/ "
+

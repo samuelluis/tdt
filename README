@@ -1,0 +1,57 @@
+--- Credentials  ---
+
+Admin user: bontix
+Password: 123
+
+
+-- Setup y uso --
+
+1.-) Instalar los paquetes necesarios para python con... "pip install -r deploy/requirements.txt" 
+NOTA: (Se debe instalar opencv y luego el wrapper python-opencv)
+
+2.-) Ejecutar el server en "tdt/" con "python manager.py runserver 8080" subira un cms de django en ese puerto. Luego, para ejecutar el cliente en opencv.  "python car-count-opencv/mainapp.py" ejecutará opencv usando el video con nombre "video.mp4" dentro de esa carpeta (no existe video con ese nombre, por tanto busque uno conveniente y asignele ese nombre)
+
+3.-) Al final del conteo y-o bien de la ejecución. Para enviar los datos de la camara contada debe cerrar el video usando la tecla ¨ESC¨. Cuando presione ESC. 
+
+Lo que hara la aplicacion es tomar el ultimo ID del url "127.0.0.1:8080/traffic_report/get_json" que es el ultimo ID de la base de datos en el cms y le sumara uno. Si no existe ninguno lo creara. Despues de tomar ese ID, creara un objeto con los nuevos datos y lo posteara via json a "127.0.0.1:8080/traffic_report/json". Estas variables pueden ser cambiadas en mainapp.py
+
+4.-) Paginas a consultar:
+
+To access those pages, you need to be running the server with "python manage.py runserver 8080" and navigate with "127.0.0.1:8080/<url>", so you must 
+replace the "^" below with the ip (127.0.0.1) and port (8080), for example: "127.0.0.1:8080/traffic_report/json"
+
+    ^traffic_report/json < The url where you need to send json with the data specified below this list
+    ^traffic_report/$ < This shows the reported id
+    ^traffic_report/(?P<cars_passed_id>\d+)/$
+    ^traffic_report/(?P<cars_passed_id>\d+)/results/$ < Testing purposes, another way to show data
+    ^traffic_report/(?P<cars_passed_id>\d+)/vote/$ < The same as the url up
+    ^viewer/view < This shows the viewer created by German, the german web ninja guy.
+    ^admin/ < His name's tell's everything, the django admin, user and password specified at beginning of this readme
+
+
+5.-) Organizacion de las paginas
+
+traffic_report/templates/static/ << Videos are here
+
+traffic_report/static/ << Static files for html	
+css/   fonts/ js/    json/  
+
+
+traffic_report/templates/traffic_report/ << Here resides the index.html (this folders needs to be cleaned)
+
+
+This is the json that this server expects at "traffic_report/json"
+
+"ID" : car.ID,
+"cars_passed" :car.cars_passed,
+"cars_jammed": car.cars_jammed,
+"cars_quantity": car.cars_quantity,
+"start_data": car.start_date.strftime("%Y-%m-%d %H:%M:%S"),
+"end_date": car.end_date.strftime("%Y-%m-%d %H:%M:%S"),
+	        
+			
+Json encoder:
+TDT Server-Client / car-count-opencv / jsonEncoder.py 
+This creates a local file w/ a json and sends a json to a server, the second feature is currently desactivated.
+
+
