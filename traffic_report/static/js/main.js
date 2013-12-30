@@ -5,6 +5,10 @@ var counting_cars_array = [];
 var counting_cars_right = [];
 var counting_cars_left = [];
 var counting_cars_top = [];
+var counting_people_array = [];
+var counting_people_up = [];
+var counting_people_down = [];
+var counting_people_other = [];
 var counting_cars_data_array = [];
 var currentDataLength;
 var dataValue = 0;
@@ -150,9 +154,9 @@ var peopleOptions = {
             lines: {
         		show: true,
         		fill: true,
-        		lineWidth: 4,
+        		lineWidth: 3,
         		steps: false
-            	},
+            },
             points: {
             	show:true,
             	radius: 5,
@@ -171,8 +175,10 @@ var peopleOptions = {
 			 }
     	},
         yaxis: { min: 0, tickDecimals: 0 },
-        xaxis: {min:0, tickDecimals: 0},
-        colors: ['#6caf2b'],
+        //xaxis: {min:0, tickDecimals: 0},
+        xaxis: {mode: "categories", tickLength: 0},
+        //xaxis: {mode: "time", timeformat: "%H:%M:%S"},
+        colors: ['#88bbc8',"#dd8852","#a9c888","#b3a69e"],
         shadowSize:1
     };
 
@@ -213,7 +219,7 @@ function drawInterval(){
 				counting_cars_left.push([currentTime+"s", current.left]);
 				counting_cars_top.push([currentTime+"s", current.top]);
 			}
-			carGraph = $.plot(countingCarsGraph, [ 
+			$.plot(countingCarsGraph, [ 
 				{
 					label: "Total: "+totalCount,
 					data: counting_cars_array,
@@ -244,6 +250,72 @@ function drawInterval(){
 	}
 }
 
+//People Counting ------------------------------------------------------------------------------------
+
+// Document ready
+var pVideoInterval = 0; 
+var pSpectrumPlayer;
+var pCurrentTime = 1;
+var people;
+var pTotalCount = 0;
+var upCount = 0;
+var downCount = 0;
+var otherCount = 0;
+
+function drawInterval(){
+	if(pSpectrumPlayer.paused()){
+		clearInterval(pVideoInterval);
+	}
+	else{
+		if(pCurrentTime!=parseInt(pSpectrumPlayer.currentTime())){
+			counting_people_array.splice(0,1);
+			counting_people_up.splice(0,1);
+			counting_people_down.splice(0,1);
+			counting_people_other.splice(0,1);
+			if(people.array[pCurrentTime]==undefined){
+				counting_people_array.push([pCurrentTime+"s",0]);
+				counting_people_up.push([pCurrentTime+"s",0]);
+				counting_people_down.push([pCurrentTime+"s",0]);
+				counting_people_other.push([pCurrentTime+"s",0]);
+			}
+			else{
+				current = people.array[pCurrentTime];
+				pTotalCount += (current.up + current.down + current.other);
+				upCount += current.up;
+				downCount += current.down;
+				otherCount += current.other;
+				counting_people_array.push([pCurrentTime+"s", (current.down + current.up + current.other)]);
+				counting_people_up.push([pCurrentTime+"s", current.up]);
+				counting_people_down.push([pCurrentTime+"s", current.down]);
+				counting_people_other.push([pCurrentTime+"s", current.other]);
+			}
+			$.plot(peopleGraph, [ 
+				{
+					label: "Total: "+pTotalCount,
+					data: counting_people_array,
+					lines: {fillColor: "#f2f7f9"},
+					points: {fillColor: "#88bbc8"}
+				}, 
+				{
+					label: "Up: "+upCount,
+					data: counting_people_up
+				}, 
+				{
+					label: "Down: "+downCount,
+					data: counting_people_down
+				}, 
+				{
+					label: "Other: "+otherCount,
+					data: counting_people_other
+				}
+			], peopleOptions);
+			pCurrentTime = parseInt(pSpectrumPlayer.currentTime());
+		}
+	}
+}
+
+//-------------------------------------------------------------------------------------------
+
 $(function(){
 
 	$(".icon-folder-open").filestyle({classButton: "btn btn-primary"});
@@ -258,7 +330,7 @@ $(function(){
 	spectrumPlayer = videojs("counting_car_video_spectrum", { "controls": false, "autoplay": false, "preload": "auto"}, function(){
 	});
 
-	spectrumPlayer.src([{ type: "video/mp4", src: "/static/media/spectrum.mp4" }]);
+	spectrumPlayer.src([{ type: "video/mp4", src: "/static/media/cars_spectrum.mp4" }]);
 
 	$("#start-count").on("click", function(){
 
@@ -268,14 +340,14 @@ $(function(){
 			$(this).removeClass("paused");
 			$(this).addClass("playing");
 			videoInterval = setInterval(drawInterval, 100);
-			$(".vjs-default-skin.vjs-controls-disabled .vjs-control-bar").attr("style", "display: block !important;");
+			$("#cars .vjs-default-skin.vjs-controls-disabled .vjs-control-bar").attr("style", "display: block !important;");
 		} else {
 			myPlayer.pause();
 			spectrumPlayer.pause();
 			$(this).removeClass("playing");
 			$(this).addClass("paused");
 			clearInterval(videoInterval);
-			$(".vjs-default-skin.vjs-controls-disabled .vjs-control-bar").attr("style", "display: none !important;");
+			$("#cars .vjs-default-skin.vjs-controls-disabled .vjs-control-bar").attr("style", "display: none !important;");
 		}
 		
 	});
@@ -294,35 +366,6 @@ $(function(){
 			counting_cars_left.push(["0s",0]);
 			counting_cars_top.push(["0s",0]);
 		}
-		/*for(var i = 0; i < data.array.length; i++){
-			if (data.array[i].quantity != 0){
-
-				currentData = [];
-				if ((i > 0) && (data.array[i-1].time == data.array[i].time)){
-					counting_cars_array[counting_cars_array.length-1][1] += data.array[i].quantity;
-				} else {
-					currentDate = Date.parse(data.array[i].time);
-					currentData.push( currentDate );
-					currentData.push( data.array[i].quantity );
-					dataValue = dataValue + data.array[i].quantity;
-					counting_cars_array.push(currentData);
-				}
-
-			} else {
-				 currentData = [];
-				 currentData.push( Date.parse(data.array[i].time) );
-				 currentData.push( 0 );
-				 counting_cars_array.push(currentData);
-			}
-		}
-
-		var lastTime = counting_cars_array[counting_cars_array.length-1][0] - updateInterval;
-		for(var j = counting_cars_array.length -1; j >= 0; j-- ){
-			if(counting_cars_array[j][0] <= lastTime ){
-				counting_cars_array.splice(0,j+1);
-				break;
-			}
-		}*/
 
 		carGraph = $.plot(countingCarsGraph, [ 
 
@@ -334,9 +377,6 @@ $(function(){
 			}
 
 		], countingCarsOptions);
-
-		//updateCars();
-
 	});
 	
 
@@ -378,31 +418,58 @@ $(function(){
 		   People Ajax Call
 	*****************************/
 
-	$.getJSON("/static/json/people.json", function(data){ 
-		//Removing Loading Div
+	$.getJSON("/static/json/people.json", function(data){
 		$("#people_graph_container").find(".loading").remove();
+		people = data;
+		for(var i = 0; i<10; i++){
+			counting_people_array.push(["0s",0]);
+			counting_people_up.push(["0s",0]);
+			counting_people_down.push(["0s",0]);
+			counting_people_other.push(["0s",0]);
+		}
 
-		//Filling the Matriculas Table with the matricula returned
-		/*$("<tr/>",{
-			html: "<td> 1 </td>"
-					+"<td>"+ data.quantity +"</td>"
-					+"<td>"+ data.quantity +"</td>"
-		}).appendTo("#peopleTable").find("tbody");
-		*/
-
-		//Generating the chart
 		$.plot(peopleGraph, [ 
 
 			{
-				label: "Total: 5", 
-				data: people_array,
-				points: {fillColor: "#6caf2b"}
+				label: "Total: 0",
+				data: counting_people_array,
+				lines: {fillColor: "#f2f7f9"},
+				points: {fillColor: "#88bbc8"}
 			}
 
 		], peopleOptions);
 
 	});
 
+	var myPeoplePlayer = videojs("counting_people_video", { "controls": false, "autoplay": false, "preload": "auto"}, function(){
+	});
+
+	myPeoplePlayer.src([{ type: "video/mp4", src: "/static/media/people.mp4" }]);
+	
+	pSpectrumPlayer = videojs("counting_people_video_spectrum", { "controls": false, "autoplay": false, "preload": "auto"}, function(){
+	});
+
+	pSpectrumPlayer.src([{ type: "video/mp4", src: "/static/media/people_spectrum.mp4" }]);
+
+	$("#start-count-people").on("click", function(){
+
+		if($(this).hasClass("paused")){
+			myPeoplePlayer.play();
+			pSpectrumPlayer.play();
+			$(this).removeClass("paused");
+			$(this).addClass("playing");
+			videoInterval = setInterval(drawInterval, 100);
+			$("#people .vjs-default-skin.vjs-controls-disabled .vjs-control-bar").attr("style", "display: block !important;");
+		} else {
+			myPeoplePlayer.pause();
+			pSpectrumPlayer.pause();
+			$(this).removeClass("playing");
+			$(this).addClass("paused");
+			clearInterval(videoInterval);
+			$("#people .vjs-default-skin.vjs-controls-disabled .vjs-control-bar").attr("style", "display: none !important;");
+		}
+		
+	});
 	        	
 });
 

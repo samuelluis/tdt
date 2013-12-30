@@ -135,11 +135,11 @@ a.navbar-brand img {
 	padding: 0px;
 }
 
-#counting_car_graph, #matriculas_graph, #matriculasRegistradas, #people_graph {
+#counting_car_graph, #counting_people_graph, #matriculas_graph, #matriculasRegistradas, #people_graph {
 	height: 250px  !important;
 }
 
-#counting_car_video_container  {
+#counting_car_video_container, #counting_people_video_container {
 	height: auto  !important;
 }
 
@@ -182,6 +182,18 @@ thead {
 }
 
 #car-couting-title {
+	display: inline-block;
+	width: 100%;
+}
+
+#people-couting-title span {
+	font-style: italic;
+	display: inline-block;
+	float: right;
+	text-transform: capitalize;
+}
+
+#people-couting-title {
 	display: inline-block;
 	width: 100%;
 }
@@ -278,7 +290,7 @@ i.car-icon {
      background-image: linear-gradient(to bottom,#6caf2b 0,#6caf2b 100%);
 }
 
-#start-count.paused, #start-count.paused:focus, #start-count.paused:hover {
+#start-count.paused, #start-count.paused:focus, #start-count.paused:hover, #start-count-people.paused, #start-count-people.paused:focus, #start-count-people.paused:hover {
 	background: transparent;
 	background-image: linear-gradient(to bottom, #ff4f03 0px, #ff7539 100%) !important;
 	background-repeat: repeat-x !important;
@@ -288,7 +300,7 @@ i.car-icon {
 	margin-right: -12px;
 }
 
-#start-count.playing, #start-count.playing:focus, #start-count.playing:hover {
+#start-count.playing, #start-count.playing:focus, #start-count.playing:hover, #start-count-people.playing, #start-count-people.playing:focus, #start-count-people.playing:hover {
 	background: transparent;
     background-image: linear-gradient(to bottom,#6caf2b 0,#6caf2b 100%);
     float: right;
@@ -296,11 +308,11 @@ i.car-icon {
 	margin-right: -12px;
 }
 
-#start-count.paused span.playing, #start-count.playing span.paused {
+#start-count.paused span.playing, #start-count.playing span.paused, #start-count-people.paused span.playing, #start-count-people.playing span.paused {
 	display: none;
 }
 
-video, #counting_car_video, #counting_car_video_spectrum {
+video, #counting_car_video, #counting_car_video_spectrum, #counting_people_video, #counting_people_video_spectrum {
 	width: 101% !important;
 	height: auto !important;
 	position: relative !important;
@@ -329,7 +341,7 @@ video, #counting_car_video, #counting_car_video_spectrum {
     top: -2px !important;
 }
 
-.counting-car-title {
+.counting-car-title, .counting-people-title {
 	float:right;
 }
 

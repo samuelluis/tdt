@@ -76,7 +76,7 @@ class CaptureManager(object):
 		if self.previewWindowManager is not None:
 			self.detectMotion()
 			if self._dimg != None:
-				self.previewWindowManager.show(self._frame) #self._dimg
+				self.previewWindowManager.show(self._dimg) #self._frame
 
 
 
@@ -152,8 +152,8 @@ class WindowManager(object):
 		self._isWindowCreated = True
 
 	def show(self, frame):
-		cv2.line(frame, (190,500), (550,450), (255,0,0), 2)
-		cv2.line(frame, (810,420), (1160,360), (255,0,0), 2)
+		#cv2.line(frame, (190,500), (550,450), (255,0,0), 2)
+		#cv2.line(frame, (810,420), (1160,360), (255,0,0), 2)
 		cv2.imshow(self._windowName, frame)
 		#cv2.imwrite("imgs/img"+(`self._count`)+".png", frame)
 		print("imgs/img"+(`self._count`)+".png")

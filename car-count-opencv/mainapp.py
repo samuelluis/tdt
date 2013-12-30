@@ -13,7 +13,7 @@ class Main(object):
 		self._windowManager = WindowManager(w_name, self.onKeypress)
 		logging.basicConfig(level=logging.DEBUG)
 		# captureManager takes 2 arguments <The video source or image source> , the windowManager
-		self._captureManager= CaptureManager(cv2.VideoCapture("video.mp4"), self._windowManager)
+		self._captureManager= CaptureManager(cv2.VideoCapture("people.mp4"), self._windowManager)
 		self.url_post = "http://127.0.0.1:8080/traffic_report/json"
 		self.url_get = "http://127.0.0.1:8080/traffic_report/get_json"		
 		self.tr = Transit_Report(2,1) # Id for cars_passed and for cameraset
